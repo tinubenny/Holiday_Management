@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Footer from "./Footer"; // Footer component
 
 const HomePage = () => {
-  const [countries, setCountries] = useState([]); // Store all countries
-  const [filteredCountries, setFilteredCountries] = useState([]); // Filtered countries
-  const [searchTerm, setSearchTerm] = useState("");
-  const [year, setYear] = useState("");
+  const [countries, setCountries] = useState([]); // List of countries
+  const [filteredCountries, setFilteredCountries] = useState([]); // Filtered results
+  const [searchTerm, setSearchTerm] = useState(""); // Search term for country
+  const [year, setYear] = useState(new Date().getFullYear()); // Default to current year
   const [currentPage, setCurrentPage] = useState(1); // Pagination state
-  const [itemsPerPage] = useState(8); // Countries per page
+  const [itemsPerPage] = useState(8); // Show 8 items per page
   const navigate = useNavigate();
 
-  // Fetch countries when component mounts
+  // Fetch country list from backend API
   useEffect(() => {
     async function fetchCountries() {
       try {
@@ -25,7 +26,7 @@ const HomePage = () => {
     fetchCountries();
   }, []);
 
-  // Search functionality
+  // Dynamic filtering for search
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
@@ -33,10 +34,10 @@ const HomePage = () => {
       country.name.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredCountries(filtered);
-    setCurrentPage(1); // Reset pagination
+    setCurrentPage(1);
   };
 
-  // Navigate on form submit
+  // Handle search form submission
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     const selectedCountry = countries.find(
@@ -49,12 +50,12 @@ const HomePage = () => {
     }
   };
 
-  // Handle country card click
+  // Handle clicking on a country card
   const handleCountryClick = (countryCode) => {
-    navigate(`/results?country=${countryCode}&year=2024`); // Redirect with default year 2024
+    navigate(`/results?country=${countryCode}&year=${year}`);
   };
 
-  // Pagination Logic
+  // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentCountries = filteredCountries.slice(
@@ -69,7 +70,7 @@ const HomePage = () => {
       {/* Hero Section */}
       <div className="bg-blue-600 text-white text-center py-12">
         <h1 className="text-4xl font-bold mb-4">Explore Holiday Destinations</h1>
-        <p className="text-lg mb-6">Discover beautiful places around the world.</p>
+        <p className="text-lg mb-6">Discover beautiful holidays around the world.</p>
 
         {/* Search Form */}
         <form
@@ -101,35 +102,25 @@ const HomePage = () => {
         </form>
       </div>
 
-      {/* Country Cards Section */}
+      {/* Country Cards */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 my-8 px-4">
-        {currentCountries.length > 0 ? (
-          currentCountries.map((country) => (
-            <div
-              key={country.code}
-              onClick={() => handleCountryClick(country.code)} // Handle click
-              className="bg-white shadow-lg rounded-lg p-4 cursor-pointer hover:shadow-xl transition"
-            >
-              <img
-                src={`/images/${country.code.toLowerCase()}.jpg`} // Ensure images exist
-                alt={country.name}
-                onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = "/images/placeholder.jpg"; // Fallback image if not found
-                  }}
-                className="h-32 w-full object-cover rounded-md mb-4"
-              />
-              <h3 className="text-xl font-bold">{country.name}</h3>
-              <p className="text-gray-600">
-                Discover the top tourist spots in {country.name}.
-              </p>
-            </div>
-          ))
-        ) : (
-          <div className="text-center col-span-full text-gray-500">
-            No countries found. Please try again later.
+        {currentCountries.map((country) => (
+          <div
+            key={country.code}
+            onClick={() => handleCountryClick(country.code)}
+            className="bg-white shadow-lg rounded-lg p-4 cursor-pointer hover:shadow-xl transition"
+          >
+            <img
+              src={`/images/${country.code.toLowerCase()}.jpg`} // Dynamically show images
+              alt={country.name}
+              className="h-32 w-full object-cover rounded-md mb-4"
+            />
+            <h3 className="text-xl font-bold">{country.name}</h3>
+            <p className="text-gray-600">
+              Explore holidays in {country.name}.
+            </p>
           </div>
-        )}
+        ))}
       </div>
 
       {/* Pagination */}
@@ -151,6 +142,9 @@ const HomePage = () => {
           )
         )}
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

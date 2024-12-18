@@ -1,20 +1,26 @@
 import React from "react";
 
-const HolidayList = ({ holidays, onSelect }) => {
+const HolidayList = ({ holidays }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+    <ul className="space-y-4">
       {holidays.map((holiday, index) => (
-        <div
+        <li
           key={index}
-          className="bg-white p-4 rounded-lg shadow-md hover:bg-gray-100 cursor-pointer"
-          onClick={() => onSelect(holiday)}
+          className="p-4 border rounded-md shadow hover:shadow-lg transition"
         >
-          <h3 className="text-lg font-bold text-blue-500">{holiday.name}</h3>
-          <p className="text-sm text-gray-700">{holiday.date.iso}</p>
-          <p className="text-sm text-gray-500">{holiday.type.join(", ")}</p>
-        </div>
+          <h3 className="text-xl font-bold">{holiday.name}</h3>
+          <p>
+            <strong>Date:</strong> {holiday.date}
+          </p>
+          <p>
+            <strong>Type:</strong> {holiday.type}
+          </p>
+          <p>
+            <strong>Description:</strong> {holiday.description || "N/A"}
+          </p>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 

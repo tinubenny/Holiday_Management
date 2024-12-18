@@ -1,36 +1,27 @@
 import React from "react";
-import Modal from "react-modal";
-
-Modal.setAppElement("#root");
 
 const HolidayModal = ({ holiday, onClose }) => {
-  if (!holiday) return null;
-
   return (
-    <Modal
-      isOpen={!!holiday}
-      onRequestClose={onClose}
-      className="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto mt-20"
-      overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
-    >
-      <h2 className="text-2xl font-bold mb-4 text-blue-500">{holiday.name}</h2>
-      <p>
-        <strong>Date:</strong> {holiday.date.iso}
-      </p>
-      <p>
-        <strong>Type:</strong> {holiday.type.join(", ")}
-      </p>
-      <p>
-        <strong>Description:</strong>{" "}
-        {holiday.description || "No description available"}
-      </p>
-      <button
-        onClick={onClose}
-        className="mt-4 bg-red-500 text-white px-4 py-2 rounded"
-      >
-        Close
-      </button>
-    </Modal>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/2">
+        <h2 className="text-2xl font-bold mb-4">{holiday.name}</h2>
+        <p className="mb-2">
+          <strong>Date:</strong> {holiday.date.iso}
+        </p>
+        <p className="mb-2">
+          <strong>Type:</strong> {holiday.type.join(", ")}
+        </p>
+        <p className="mb-4">
+          <strong>Description:</strong> {holiday.description || "No description available."}
+        </p>
+        <button
+          onClick={onClose}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Close
+        </button>
+      </div>
+    </div>
   );
 };
 

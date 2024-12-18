@@ -9,17 +9,15 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
+from dotenv import load_dotenv
 from pathlib import Path
 from decouple import config
 
-CALENDARIFIC_API_KEY = config('CALENDARIFIC_API_KEY')
-CASHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'TIMEOUT': 86400,  # 24 hours
-    }
-}
+load_dotenv()
+CALENDARIFIC_API_KEY = os.getenv('CALENDARIFIC_API_KEY')
+print("API Key:", CALENDARIFIC_API_KEY)
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
