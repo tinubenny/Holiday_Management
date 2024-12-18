@@ -159,7 +159,7 @@ GET /api/holidays/?country=IN&year=2024
 For questions or feedback, please contact:
 - **Name:** Tinu Benny
 - **Email:** tinubenny@hotmail.com
-- **GitHub:** 
+- **GitHub:** https://github.com/tinubenny
 
 ---
 
