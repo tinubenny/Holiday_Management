@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import get_holidays, search_holidays
+from .views import country_list, tourist_spots
 
 urlpatterns = [
-    path('holidays/', get_holidays, name='get_holidays'),
-    path('holidays/search/', search_holidays, name='search_holidays'),
+    path("countries/", country_list, name="country_list"),
+    path("spots/", tourist_spots, name="tourist_spots"),
 ]
